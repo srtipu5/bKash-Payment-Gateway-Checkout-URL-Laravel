@@ -180,10 +180,6 @@ class CheckoutURLController extends Controller
 
     public function refund(Request $request)
     {
-        Session::forget('bkash_token');
-        $token = $this->grant();
-        Session::put('bkash_token', $token);
-
         $header =$this->authHeaders();
 
         $body_data = array(
