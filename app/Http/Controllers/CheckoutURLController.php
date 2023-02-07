@@ -15,9 +15,9 @@ class CheckoutURLController extends Controller
     public function __construct()
     {
         // Sandbox
-        $this->base_url = 'https://tokenized.sandbox.bka.sh/v1.2.0-beta';
+        //$this->base_url = 'https://tokenized.sandbox.bka.sh/v1.2.0-beta';
         // Live
-        //$this->base_url = 'https://tokenized.pay.bka.sh/v1.2.0-beta';  
+        $this->base_url = 'https://tokenized.pay.bka.sh/v1.2.0-beta';  
     }
 
     public function authHeaders(){
@@ -60,12 +60,12 @@ class CheckoutURLController extends Controller
         return $token;
     }
 
-    public function pay(Request $request)
+    public function payment(Request $request)
     {
         return view('CheckoutURL.pay');
     }
 
-    public function create(Request $request)
+    public function createPayment(Request $request)
     {
         $header =$this->authHeaders();
 
@@ -87,7 +87,7 @@ class CheckoutURLController extends Controller
         return redirect((json_decode($response)->bkashURL));
     }
 
-    public function execute($paymentID)
+    public function executePayment($paymentID)
     {
 
         $header =$this->authHeaders();
@@ -110,7 +110,7 @@ class CheckoutURLController extends Controller
         return $response;
     }
 
-    public function query($paymentID)
+    public function queryPayment($paymentID)
     {
 
         $header =$this->authHeaders();
@@ -148,7 +148,7 @@ class CheckoutURLController extends Controller
 
         }else{
             
-            $response = $this->execute($allRequest['paymentID']);
+            $response = $this->executePayment($allRequest['paymentID']);
 
             $arr = json_decode($response,true);
     
@@ -159,7 +159,7 @@ class CheckoutURLController extends Controller
             }else if(array_key_exists("message",$arr)){
                 // if execute api failed to response
                 sleep(1);
-                $query = $this->query($allRequest['paymentID']);
+                $query = $this->queryPayment($allRequest['paymentID']);
                 return view('CheckoutURL.success')->with([
                     'response' => $query
                 ]);
@@ -178,7 +178,7 @@ class CheckoutURLController extends Controller
         return view('CheckoutURL.refund');
     }
 
-    public function refund(Request $request)
+    public function refundPayment(Request $request)
     {
         Session::forget('bkash_token');
         $token = $this->grant();
