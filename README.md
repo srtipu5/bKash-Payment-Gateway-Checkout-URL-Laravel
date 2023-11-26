@@ -16,7 +16,7 @@ BKASH_APP_KEY = 'your app_key'
 BKASH_APP_SECRET ='your app_secret'
 
 ```
-# Web.php Setup
+# web.php Setup
 ```
 // Checkout (URL) User Part
 Route::get('/bkash/pay', [App\Http\Controllers\BkashController::class, 'payment'])->name('url-pay');
@@ -31,12 +31,21 @@ Route::post('/bkash/search', [App\Http\Controllers\BkashController::class, 'sear
 ```
 # Add Controller
 ```
---- App\Http\Controllers\Controller\BkashController
+Create a new Controller named 'BkashController'
+Controller Location --- App\Http\Controllers\BkashController
+You can now copy paste code from this project 'BkashController' code
+
 ```
 
 # Add Blades
 ```
---- Resources\Views\bkash 
+Create a new view folder named 'bkash'
+View Folder Loaction --- Resources\Views\bkash
+--- Under 'bkash' folder create pay.blade.php  
+--- Under 'bkash' folder create success.blade.php
+--- Under 'bkash' folder create fail.blade.php
+--- Under 'bkash' folder create refund.blade.php
+Now you can copy paste code from this project
 ```
 # Run & Test Application
 ```
