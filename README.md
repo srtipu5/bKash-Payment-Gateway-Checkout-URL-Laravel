@@ -47,13 +47,17 @@ View Folder Loaction --- Resources\Views\bkash
 --- Under 'bkash' folder create refund.blade.php
 Now you can copy paste code from this project
 ```
-# Run & Test Application
+# Payment Test
 ```
 Now run the application & go to '/bkash/pay' route
 ```
+# Refund Test
+```
+Now run the application & go to '/bkash/refund' route
+```
 # Sandbox Testing Credentials 
 ```
-Testing Number: 01619777283 
+Testing Number:  01619777283 , 01877722345, 01823074817
 OTP: 123456
 PIN: 12121
 ```
