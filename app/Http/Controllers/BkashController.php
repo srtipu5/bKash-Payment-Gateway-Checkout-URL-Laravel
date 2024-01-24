@@ -148,7 +148,7 @@ class BkashController extends Controller
 
             $res_array = json_decode($response,true);
             
-            if(array_key_exists("message",$res_array)){
+            if(array_key_exists("message",$res_array) || (array_key_exists("statusCode",$res_array) && $res_array['statusCode'] == '0000' && array_key_exists("transactionStatus",$res_array) && $res_array['transactionStatus'] == 'Initiated')){
                 // if execute api failed to response
                 sleep(1);
                 $response = $this->queryPayment($allRequest['paymentID']);
@@ -226,7 +226,7 @@ class BkashController extends Controller
         $header =$this->authHeaders();
 
         $body_data = array(
-            'trxID' => request->$trxID,
+            'trxID' => $request->trxID,
         );
 
         $response = $this->curlWithBody('/tokenized/checkout/general/searchTransaction',$header,'POST',json_encode($body_data));
