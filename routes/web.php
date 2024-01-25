@@ -1,7 +1,7 @@
 <?php
 
+use App\Http\Controllers\BkashController;
 use Illuminate\Support\Facades\Route;
-// use App\Http\Controllers\BkashController;
 
 
 /*
@@ -21,11 +21,14 @@ Route::get('/', function () {
 
 
 // Checkout (URL) User Part
-Route::get('/bkash/pay', [App\Http\Controllers\BkashController::class, 'payment'])->name('url-pay');
-Route::post('/bkash/create', [App\Http\Controllers\BkashController::class, 'createPayment'])->name('url-create');
-Route::get('/bkash/callback', [App\Http\Controllers\BkashController::class, 'callback'])->name('url-callback');
+Route::get('/bkash-pay', [BkashController::class, 'payment'])->name('url-pay');
+Route::post('/bkash-create', [BkashController::class, 'createPayment'])->name('url-create');
+Route::get('/bkash-callback', [BkashController::class, 'callback'])->name('url-callback');
 
 // Checkout (URL) Admin Part
-Route::get('/bkash/refund', [App\Http\Controllers\BkashController::class, 'getRefund'])->name('url-get-refund');
-Route::post('/bkash/refund', [App\Http\Controllers\BkashController::class, 'refundPayment'])->name('url-post-refund');
-Route::post('/bkash/search', [App\Http\Controllers\BkashController::class, 'searchTransaction'])->name('url-post-search');
+Route::get('/bkash-refund', [BkashController::class, 'getRefund'])->name('url-get-refund');
+Route::post('/bkash-refund', [BkashController::class, 'refundPayment'])->name('url-post-refund');
+Route::get('/bkash-search', [BkashController::class, 'getSearchTransaction'])->name('url-get-search');
+Route::post('/bkash-search', [BkashController::class, 'searchTransaction'])->name('url-post-search');
+Route::get('/bkash-query', [BkashController::class, 'getQueryPayment'])->name('url-get-query');
+Route::post('/bkash-query', [BkashController::class, 'queryPayment'])->name('url-post-query');
