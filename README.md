@@ -19,14 +19,15 @@ BKASH_APP_SECRET ='your app_secret'
 # web.php Setup
 ```
 // Checkout (URL) User Part
-Route::get('/bkash/pay', [App\Http\Controllers\BkashController::class, 'payment'])->name('url-pay');
-Route::post('/bkash/create', [App\Http\Controllers\BkashController::class, 'createPayment'])->name('url-create');
-Route::get('/bkash/callback', [App\Http\Controllers\BkashController::class, 'callback'])->name('url-callback');
+Route::get('/bkash-pay', [BkashController::class, 'payment'])->name('url-pay');
+Route::post('/bkash-create', [BkashController::class, 'createPayment'])->name('url-create');
+Route::get('/bkash-callback', [BkashController::class, 'callback'])->name('url-callback');
 
 // Checkout (URL) Admin Part
-Route::get('/bkash/refund', [App\Http\Controllers\BkashController::class, 'getRefund'])->name('url-get-refund');
-Route::post('/bkash/refund', [App\Http\Controllers\BkashController::class, 'refundPayment'])->name('url-post-refund');
-Route::post('/bkash/search', [App\Http\Controllers\BkashController::class, 'searchTransaction'])->name('url-post-search');
+Route::get('/bkash-refund', [BkashController::class, 'getRefund'])->name('url-get-refund');
+Route::post('/bkash-refund', [BkashController::class, 'refundPayment'])->name('url-post-refund');
+Route::get('/bkash-search', [BkashController::class, 'getSearchTransaction'])->name('url-get-search');
+Route::post('/bkash-search', [BkashController::class, 'searchTransaction'])->name('url-post-search');
 
 ```
 # Add Controller
@@ -49,15 +50,15 @@ Now you can copy paste code from this project
 ```
 # Payment Test
 ```
-Now run the application & go to '/bkash/pay' route
+Now run the application & go to '/bkash-pay' route
 ```
 # Refund Test
 ```
-Now run the application & go to '/bkash/refund' route
+Now run the application & go to '/bkash-refund' route
 ```
 # Sandbox Testing Credentials 
 ```
-Testing Number:  01619777283 , 01877722345, 01823074817
+Testing Number: 01929918378, 01619777283, 01877722345, 01823074817
 OTP: 123456
 PIN: 12121
 ```
