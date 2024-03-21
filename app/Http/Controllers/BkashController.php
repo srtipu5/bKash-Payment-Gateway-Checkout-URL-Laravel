@@ -125,28 +125,16 @@ class BkashController extends Controller
     public function callback(Request $request)
     {
         $allRequest = $request->all();
-
-        if (isset($allRequest['status']) && $allRequest['status'] == 'failure') {
-            return view('bkash.fail')->with([
-                'response' => 'Payment Failed !!'
-            ]);
-
-        } else if (isset($allRequest['status']) && $allRequest['status'] == 'cancel') {
-            return view('bkash.fail')->with([
-                'response' => 'Payment Cancelled !!'
-            ]);
-
-        } else if (isset($allRequest['status']) && $allRequest['status'] == 'success') {
-
+        if (isset($allRequest['status']) && $allRequest['status'] == 'success') {
             $response = $this->executePayment($allRequest['paymentID']);
-
-            $res_array = json_decode($response, true);
-
-            if (array_key_exists("message", $res_array) || (array_key_exists("statusCode", $res_array) && $res_array['statusCode'] == '0000' && array_key_exists("transactionStatus", $res_array) && $res_array['transactionStatus'] == 'Initiated')) {
+            if(is_null($response)){
                 sleep(1);
                 $response = $this->queryPayment($allRequest['paymentID']);
-                $res_array = json_decode($response, true);
-            } else if (array_key_exists("statusCode", $res_array) && $res_array['statusCode'] == '0000' && array_key_exists("transactionStatus", $res_array) && $res_array['transactionStatus'] == 'Completed') {
+            } 
+
+            $res_array = json_decode($response, true);
+            
+            if (array_key_exists("statusCode", $res_array) && $res_array['statusCode'] == '0000' && array_key_exists("transactionStatus", $res_array) && $res_array['transactionStatus'] == 'Completed') {
                 // payment success case
                 return view('bkash.success')->with([
                     'response' => $res_array['trxID']
