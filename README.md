@@ -1,10 +1,10 @@
 # .env Setup (Sandbox)
 ```
 SANDBOX = true
-BKASH_USERNAME = 'sandboxTokenizedUser02'
-BKASH_PASSWORD = 'sandboxTokenizedUser02@12345'
-BKASH_APP_KEY = '4f6o0cjiki2rfm34kfdadl1eqq'
-BKASH_APP_SECRET ='2is7hdktrekvrbljjh44ll3d9l1dtjo4pasmjvs5vl5qr3fug4b'
+BKASH_USERNAME = '01770618567'
+BKASH_PASSWORD = 'D7DaC<*E*eG'
+BKASH_APP_KEY = '0vWQuCRGiUX7EPVjQDr0EUAYtc'
+BKASH_APP_SECRET ='jcUNPBgbcqEDedNKdvE4G1cAK7D3hCjmJccNPZZBq96QIxxwAMEx'
 
 ```
 # .env Setup (Live)
@@ -60,7 +60,7 @@ Now run the application & go to '/bkash-refund' route
 ```
 # Sandbox Testing Credentials 
 ```
-Testing Number: 01929918378, 01619777283, 01877722345, 01823074817
+Testing Number: 01929918378, 01619777283, 01619777282, 01823074817
 OTP: 123456
 PIN: 12121
 ```
