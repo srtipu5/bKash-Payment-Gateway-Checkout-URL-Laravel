@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Cache;
 use URL;
 
 class BkashController extends Controller
@@ -50,6 +51,12 @@ class BkashController extends Controller
 
     public function grant()
     {
+        $token = Cache::get('token');
+
+        if (!is_null($token)) {
+            return $token;
+        }
+
         $header = array(
             'Content-Type:application/json',
             'username:' . $this->username,
@@ -61,7 +68,7 @@ class BkashController extends Controller
         $response = $this->curlWithBody('/tokenized/checkout/token/grant', $header, 'POST', json_encode($body_data));
 
         $token = json_decode($response)->id_token;
-
+        Cache::put('token', $token, 60);
         return $token;
     }
 
