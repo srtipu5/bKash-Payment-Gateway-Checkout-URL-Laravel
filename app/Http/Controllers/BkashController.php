@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Log;
 use URL;
 
 class BkashController extends Controller
@@ -49,26 +50,40 @@ class BkashController extends Controller
         return $response;
     }
 
-    public function grant()
+      public function grant()
     {
-        $token = Cache::get('token');
+        // Fetch the current username from the .env file
+        $envUsername = env('BKASH_USERNAME');
 
-        if (!is_null($token)) {
-            return $token;
+        // Get cached token and username
+        $cachedTokenData = Cache::get('token_data');
+
+        // If there is a cached token and the username matches the current one in the .env file
+        if (!is_null($cachedTokenData) && $cachedTokenData['username'] === $envUsername) {
+            Log::info("Using cached token", ['token' => $cachedTokenData['token']]);
+            return $cachedTokenData['token'];
         }
 
+        // Username doesn't match or token doesn't exist, so we need to request a new token
         $header = array(
-            'Content-Type:application/json',
-            'username:' . $this->username,
-            'password:' . $this->password
+            'Content-Type: application/json',
+            'username: ' . $this->username,
+            'password: ' . $this->password,
         );
 
         $body_data = array('app_key' => $this->app_key, 'app_secret' => $this->app_secret);
 
+        // Make the request to get the token
         $response = $this->curlWithBody('/tokenized/checkout/token/grant', $header, 'POST', json_encode($body_data));
 
+        // Extract the token from the response
         $token = json_decode($response)->id_token;
-        Cache::put('token', $token, 60);
+
+        // Cache the token along with the current username from the .env file
+        Cache::put('token_data', ['token' => $token, 'username' => $envUsername], 3600); // Cache for 5 minutes (300 seconds)
+
+        Log::info("New token granted", ['token' => $token]);
+
         return $token;
     }
 
