@@ -49,26 +49,38 @@ class BkashController extends Controller
         return $response;
     }
 
-    public function grant()
+     public function grant()
     {
-        $token = Cache::get('token');
+        $envUsername = env('BKASH_USERNAME');
 
-        if (!is_null($token)) {
-            return $token;
+        
+        $cachedTokenData = Cache::get('token_data');
+
+        if (!is_null($cachedTokenData) && $cachedTokenData['username'] === $envUsername) {
+            Log::info("Using cached token", ['token' => $cachedTokenData['token']]);
+            return $cachedTokenData['token'];
         }
 
+      
         $header = array(
-            'Content-Type:application/json',
-            'username:' . $this->username,
-            'password:' . $this->password
+            'Content-Type: application/json',
+            'username: ' . $this->username,
+            'password: ' . $this->password,
         );
 
         $body_data = array('app_key' => $this->app_key, 'app_secret' => $this->app_secret);
 
+      
         $response = $this->curlWithBody('/tokenized/checkout/token/grant', $header, 'POST', json_encode($body_data));
 
+       
         $token = json_decode($response)->id_token;
-        Cache::put('token', $token, 60);
+
+        
+        Cache::put('token_data', ['token' => $token, 'username' => $envUsername], 3600); // Cache for 5 minutes (300 seconds)
+
+        Log::info("New token granted", ['token' => $token]);
+
         return $token;
     }
 
